@@ -10,6 +10,7 @@ public class Ball : MonoBehaviour
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
+        MainManager.Instance.Ball = m_Rigidbody;
     }
     
     private void OnCollisionExit(Collision other)
