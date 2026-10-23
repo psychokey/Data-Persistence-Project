@@ -12,35 +12,67 @@ public class MainManager : MonoBehaviour
 
     public Text ScoreText;
     public GameObject GameOverText;
-    
-    private bool m_Started = false;
-    private int m_Points;
-    
-    private bool m_GameOver = false;
 
-    
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private bool m_Started = false;
+    private int m_Points;
+
+    [SerializeField] private bool m_GameOver = false;
+
+    public bool m_Menu;
+
+    public static MainManager Instance;
+
+
+    void Awake()
     {
-        const float step = 0.6f;
-        int perLine = Mathf.FloorToInt(4.0f / step);
-        
-        int[] pointCountArray = new [] {1,1,2,2,5,5};
-        for (int i = 0; i < LineCount; ++i)
+        GameOverText.SetActive(false);
+
+        if (Instance != null)
         {
-            for (int x = 0; x < perLine; ++x)
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (m_Menu == false)
+        {
+            const float step = 0.6f;
+            int perLine = Mathf.FloorToInt(4.0f / step);
+
+            int[] pointCountArray = new[] { 1, 1, 2, 2, 5, 5 };
+            for (int i = 0; i < LineCount; ++i)
             {
-                Vector3 position = new Vector3(-1.5f + step * x, 2.5f + i * 0.3f, 0);
-                var brick = Instantiate(BrickPrefab, position, Quaternion.identity);
-                brick.PointValue = pointCountArray[i];
-                brick.onDestroyed.AddListener(AddPoint);
+                for (int x = 0; x < perLine; ++x)
+                {
+                    Vector3 position = new Vector3(-1.5f + step * x, 2.5f + i * 0.3f, 0);
+                    var brick = Instantiate(BrickPrefab, position, Quaternion.identity);
+                    brick.PointValue = pointCountArray[i];
+                    brick.onDestroyed.AddListener(AddPoint);
+                }
             }
         }
     }
 
+
     private void Update()
     {
-        if (!m_Started)
+        if (!m_Started && !m_Menu && !m_GameOver)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -53,10 +85,18 @@ public class MainManager : MonoBehaviour
                 Ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
             }
         }
-        else if (m_GameOver)
+        else if (!m_Menu && m_GameOver)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                m_GameOver = false;
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
+
+            else if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                m_Menu = true;
+                m_GameOver = false;
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
@@ -70,7 +110,15 @@ public class MainManager : MonoBehaviour
 
     public void GameOver()
     {
+        m_Started = false;
         m_GameOver = true;
+        Ball = null;
         GameOverText.SetActive(true);
+    }
+
+    public void StartGame()
+    {
+        m_Menu = false;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
