@@ -253,6 +253,7 @@ MonoBehaviour:
   MaxMovement: 2
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1 &111000491
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,6 +388,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21dd420c881bdb44fb81674b260379c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+=======
+>>>>>>> parent of 90195ea (Starting the Game)
 =======
 >>>>>>> parent of 90195ea (Starting the Game)
 =======
@@ -597,6 +600,7 @@ CanvasRenderer:
   m_CullTransparentMesh: 1
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!1 &270178846
 GameObject:
   m_ObjectHideFlags: 0
@@ -789,6 +793,8 @@ MonoBehaviour:
 >>>>>>> parent of 90195ea (Starting the Game)
 =======
 >>>>>>> parent of 90195ea (Starting the Game)
+=======
+>>>>>>> parent of 90195ea (Starting the Game)
 --- !u!1 &450625940
 GameObject:
   m_ObjectHideFlags: 0
@@ -836,8 +842,12 @@ MonoBehaviour:
   LineCount: 6
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   Ball: {fileID: 0}
   BestScore: {fileID: 0}
+=======
+  Ball: {fileID: 177912862}
+>>>>>>> parent of 90195ea (Starting the Game)
 =======
   Ball: {fileID: 177912862}
 >>>>>>> parent of 90195ea (Starting the Game)
@@ -1644,7 +1654,11 @@ GameObject:
   m_Layer: 5
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_Name: BestScoreText
+=======
+  m_Name: ScoreText (1)
+>>>>>>> parent of 90195ea (Starting the Game)
 =======
   m_Name: ScoreText (1)
 >>>>>>> parent of 90195ea (Starting the Game)
@@ -1833,6 +1847,7 @@ RectTransform:
   m_Pivot: {x: 0, y: 0}
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 --- !u!114 &2137539499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1849,6 +1864,8 @@ MonoBehaviour:
   StartButton: {fileID: 111000491}
   GameOverButton: {fileID: 474497238}
   ScoreText: {fileID: 188020406}
+=======
+>>>>>>> parent of 90195ea (Starting the Game)
 =======
 >>>>>>> parent of 90195ea (Starting the Game)
 =======
