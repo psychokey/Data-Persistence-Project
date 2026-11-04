@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InputManagerConnector : MonoBehaviour
+public class ButtonManagerConnector : MonoBehaviour
 {
-    [SerializeField] private Button startButton;
+    private Button startButton;
     // Start is called before the first frame update
     void Start()
     {

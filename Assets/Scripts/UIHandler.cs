@@ -14,15 +14,22 @@ public class UIHandler : MonoBehaviour
     {
         MainManager.Instance.GameOverText = GameOverButton;
         MainManager.Instance.ScoreText = ScoreText;
+
+        if (MainManager.Instance.m_Menu == false)
+        {
+            NameInput.transform.position = new Vector2(10000, 10000);
+            StartButton.SetActive(false);
+        }
+        else
+        {
+            NameInput.transform.position = new Vector2(647, 270);
+            StartButton.SetActive(true);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (MainManager.Instance.m_Menu == false)
-        {
-            NameInput.SetActive(false);
-            StartButton.SetActive(false);
-        }
+
     }
 }

@@ -1,8 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System.IO;
 
 public class MainManager : MonoBehaviour
 {
@@ -10,8 +13,13 @@ public class MainManager : MonoBehaviour
     public int LineCount = 6;
     public Rigidbody Ball;
 
+    private TMP_InputField NameInput;
+    public Text BestScore;
     public Text ScoreText;
     public GameObject GameOverText;
+
+    static string ActualPlayerName;
+    static int ActualBestScore;
 
     [SerializeField] private bool m_Started = false;
     private int m_Points;
@@ -22,10 +30,19 @@ public class MainManager : MonoBehaviour
 
     public static MainManager Instance;
 
+    private void Start()
+    {
+        ActualPlayerName = "";
+        ActualBestScore = 0;
+    }
 
     void Awake()
     {
+        BestScore = GameObject.Find("BestScoreText").GetComponent<Text>();
+        
+
         GameOverText.SetActive(false);
+        BestScore.text = "Best Score : " + ActualPlayerName + " : " + ActualBestScore;
 
         if (Instance != null)
         {
@@ -35,7 +52,6 @@ public class MainManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-
     }
 
     private void OnEnable()
@@ -74,10 +90,11 @@ public class MainManager : MonoBehaviour
     {
         if (!m_Started && !m_Menu && !m_GameOver)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            BestScore.text = "Best Score : " + ActualPlayerName + " : " + ActualBestScore;
+            if (Input.GetKeyDown(KeyCode.Space) && Ball != null)
             {
                 m_Started = true;
-                float randomDirection = Random.Range(-1.0f, 1.0f);
+                float randomDirection = UnityEngine.Random.Range(-1.0f, 1.0f);
                 Vector3 forceDir = new Vector3(randomDirection, 1, 0);
                 forceDir.Normalize();
 
@@ -90,7 +107,8 @@ public class MainManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 m_GameOver = false;
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                LoadGame();
+                StartGame();
             }
 
             else if (Input.GetKeyDown(KeyCode.Escape))
@@ -114,11 +132,122 @@ public class MainManager : MonoBehaviour
         m_GameOver = true;
         Ball = null;
         GameOverText.SetActive(true);
+        LoadGame();
     }
 
     public void StartGame()
     {
+        Debug.Log("Jugador actual en StartGame(): " + ActualPlayerName);
+        m_Points = 0;
         m_Menu = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+
+    [Serializable]
+    public class PlayerData
+    {
+        public string name;
+        public int score;
+    }
+
+    public void SaveGame()
+    {
+        PlayerData actualPlayer = new PlayerData();
+        actualPlayer.name = ActualPlayerName;
+        if (actualPlayer.name == "Guest" || actualPlayer.name == "")
+        {
+            actualPlayer.score = 0;
+        }
+        else
+        {
+            actualPlayer.score = ActualBestScore;
+        }
+
+        string json = JsonUtility.ToJson(actualPlayer);
+        File.WriteAllText(Application.persistentDataPath + "/" + actualPlayer.name + ".json", json);
+    }
+
+    public void LoadGame()
+    {
+        if (ActualPlayerName != "" && ActualPlayerName != "Guest")
+        {
+            string path = Application.persistentDataPath + "/" + ActualPlayerName + ".json";
+
+            if (File.Exists(path))
+            {
+                Debug.Log("Data: " + path + " Loaded");
+                string jsonDocument = File.ReadAllText(path);
+                PlayerData data = JsonUtility.FromJson<PlayerData>(jsonDocument);
+
+                if (data.score < m_Points)
+                {
+                    SaveGame();
+                    BestScore.text = "Best Score : " + data.name + " : " + m_Points;
+                    ActualBestScore = m_Points;
+                }
+
+                else
+                {
+                    BestScore.text = "Best Score : " + data.name + " : " + data.score;
+                    ActualBestScore = data.score;
+                }
+
+            }
+
+            else
+            {
+                ActualBestScore = 0;
+                BestScore.text = "Best Score : " + ActualPlayerName + " : " + ActualBestScore;
+                SaveGame();
+            }
+        }
+        else if (ActualPlayerName == "Guest" || ActualPlayerName == "")
+        {
+            BestScore.text = "Best Score : Guest : 0";
+            ActualBestScore = 0;
+        }
+    }
+
+    public void LoadData()
+    {
+        if (ActualPlayerName != "" && ActualPlayerName != "Guest")
+        {
+            string path = Application.persistentDataPath + "/" + ActualPlayerName + ".json";
+
+            if (File.Exists(path))
+            {
+                Debug.Log("Data: " + path + " Loaded");
+                string jsonDocument = File.ReadAllText(path);
+                PlayerData data = JsonUtility.FromJson<PlayerData>(jsonDocument);
+
+                    BestScore.text = "Best Score : " + data.name + " : " + data.score;
+                    ActualBestScore = data.score;
+            }
+
+            else
+            {
+                BestScore.text = "Best Score : " + ActualPlayerName + " : " + 0;
+            }
+        }
+        else if (ActualPlayerName == "Guest" || ActualPlayerName == "")
+        {
+            BestScore.text = "Best Score : Guest : 0";
+            ActualBestScore = 0;
+        }
+
+    }
+    public void GetUserName()
+    {
+        NameInput = GameObject.Find("NameInput").GetComponent<TMP_InputField>();
+        if(NameInput.text != "")
+        {
+            ActualPlayerName = NameInput.text;
+        }
+
+        else
+        {
+            ActualPlayerName = "Guest";
+        }
     }
 }
