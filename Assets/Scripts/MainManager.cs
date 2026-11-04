@@ -17,13 +17,21 @@ public class MainManager : MonoBehaviour
     public Text BestScore;
     public Text ScoreText;
     public GameObject GameOverText;
+<<<<<<< HEAD
 
     static string ActualPlayerName;
     static int ActualBestScore;
 
     [SerializeField] private bool m_Started = false;
+=======
+    
+    private bool m_Started = false;
+>>>>>>> parent of 90195ea (Starting the Game)
     private int m_Points;
+    
+    private bool m_GameOver = false;
 
+<<<<<<< HEAD
     [SerializeField] private bool m_GameOver = false;
 
     public bool m_Menu;
@@ -73,22 +81,31 @@ public class MainManager : MonoBehaviour
 
             int[] pointCountArray = new[] { 1, 1, 2, 2, 5, 5 };
             for (int i = 0; i < LineCount; ++i)
+=======
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        const float step = 0.6f;
+        int perLine = Mathf.FloorToInt(4.0f / step);
+        
+        int[] pointCountArray = new [] {1,1,2,2,5,5};
+        for (int i = 0; i < LineCount; ++i)
+        {
+            for (int x = 0; x < perLine; ++x)
+>>>>>>> parent of 90195ea (Starting the Game)
             {
-                for (int x = 0; x < perLine; ++x)
-                {
-                    Vector3 position = new Vector3(-1.5f + step * x, 2.5f + i * 0.3f, 0);
-                    var brick = Instantiate(BrickPrefab, position, Quaternion.identity);
-                    brick.PointValue = pointCountArray[i];
-                    brick.onDestroyed.AddListener(AddPoint);
-                }
+                Vector3 position = new Vector3(-1.5f + step * x, 2.5f + i * 0.3f, 0);
+                var brick = Instantiate(BrickPrefab, position, Quaternion.identity);
+                brick.PointValue = pointCountArray[i];
+                brick.onDestroyed.AddListener(AddPoint);
             }
         }
     }
 
-
     private void Update()
     {
-        if (!m_Started && !m_Menu && !m_GameOver)
+        if (!m_Started)
         {
             BestScore.text = "Best Score : " + ActualPlayerName + " : " + ActualBestScore;
             if (Input.GetKeyDown(KeyCode.Space) && Ball != null)
@@ -102,10 +119,11 @@ public class MainManager : MonoBehaviour
                 Ball.AddForce(forceDir * 2.0f, ForceMode.VelocityChange);
             }
         }
-        else if (!m_Menu && m_GameOver)
+        else if (m_GameOver)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
+<<<<<<< HEAD
                 m_GameOver = false;
                 LoadGame();
                 StartGame();
@@ -115,6 +133,8 @@ public class MainManager : MonoBehaviour
             {
                 m_Menu = true;
                 m_GameOver = false;
+=======
+>>>>>>> parent of 90195ea (Starting the Game)
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
@@ -128,12 +148,11 @@ public class MainManager : MonoBehaviour
 
     public void GameOver()
     {
-        m_Started = false;
         m_GameOver = true;
-        Ball = null;
         GameOverText.SetActive(true);
         LoadGame();
     }
+<<<<<<< HEAD
 
     public void StartGame()
     {
@@ -250,4 +269,6 @@ public class MainManager : MonoBehaviour
             ActualPlayerName = "Guest";
         }
     }
+=======
+>>>>>>> parent of 90195ea (Starting the Game)
 }
