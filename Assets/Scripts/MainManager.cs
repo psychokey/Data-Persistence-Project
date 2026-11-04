@@ -18,6 +18,7 @@ public class MainManager : MonoBehaviour
     public Text ScoreText;
     public GameObject GameOverText;
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     static string ActualPlayerName;
     static int ActualBestScore;
@@ -27,10 +28,15 @@ public class MainManager : MonoBehaviour
     
     private bool m_Started = false;
 >>>>>>> parent of 90195ea (Starting the Game)
+=======
+    
+    private bool m_Started = false;
+>>>>>>> parent of 90195ea (Starting the Game)
     private int m_Points;
     
     private bool m_GameOver = false;
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     [SerializeField] private bool m_GameOver = false;
 
@@ -94,6 +100,19 @@ public class MainManager : MonoBehaviour
         {
             for (int x = 0; x < perLine; ++x)
 >>>>>>> parent of 90195ea (Starting the Game)
+=======
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        const float step = 0.6f;
+        int perLine = Mathf.FloorToInt(4.0f / step);
+        
+        int[] pointCountArray = new [] {1,1,2,2,5,5};
+        for (int i = 0; i < LineCount; ++i)
+        {
+            for (int x = 0; x < perLine; ++x)
+>>>>>>> parent of 90195ea (Starting the Game)
             {
                 Vector3 position = new Vector3(-1.5f + step * x, 2.5f + i * 0.3f, 0);
                 var brick = Instantiate(BrickPrefab, position, Quaternion.identity);
@@ -124,6 +143,7 @@ public class MainManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space))
             {
 <<<<<<< HEAD
+<<<<<<< HEAD
                 m_GameOver = false;
                 LoadGame();
                 StartGame();
@@ -133,6 +153,8 @@ public class MainManager : MonoBehaviour
             {
                 m_Menu = true;
                 m_GameOver = false;
+=======
+>>>>>>> parent of 90195ea (Starting the Game)
 =======
 >>>>>>> parent of 90195ea (Starting the Game)
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -152,6 +174,7 @@ public class MainManager : MonoBehaviour
         GameOverText.SetActive(true);
         LoadGame();
     }
+<<<<<<< HEAD
 <<<<<<< HEAD
 
     public void StartGame()
@@ -269,6 +292,8 @@ public class MainManager : MonoBehaviour
             ActualPlayerName = "Guest";
         }
     }
+=======
+>>>>>>> parent of 90195ea (Starting the Game)
 =======
 >>>>>>> parent of 90195ea (Starting the Game)
 }
